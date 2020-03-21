@@ -1,6 +1,3 @@
-require 'net/http'
-require 'uri'
-
 class Weather::ElTiempo::ApiCall < Mutations::Command
 
   BASE_URI = 'http://api.tiempo.com/index.php'
@@ -16,12 +13,12 @@ class Weather::ElTiempo::ApiCall < Mutations::Command
   end
 
   def execute
-    uri = URI(base_uri)
-    uri.query = URI.encode_www_form(params)
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Post.new(uri.request_uri)
-
-    http.request(request)
+    debugger
+    Paack::Request.
+        request(
+            base_uri: base_uri,
+            params: params
+        )
   end
 
   private
