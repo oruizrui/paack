@@ -13,7 +13,6 @@ class Weather::ElTiempo::ApiCall < Mutations::Command
   end
 
   def execute
-    debugger
     Paack::Request.
         request(
             base_uri: base_uri,
@@ -28,7 +27,9 @@ class Weather::ElTiempo::ApiCall < Mutations::Command
   end
 
   def params
-    base_params.merge!(inputs)
+    base_params.
+        merge!(inputs).
+        symbolize_keys
   end
 
   def base_params
