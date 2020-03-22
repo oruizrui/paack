@@ -2,11 +2,11 @@ class Weather::ElTiempo::ApiCallback < Mutations::Command
 
   required do
     integer :code, class: Integer
-    hash :body
+    duck :body
   end
 
   def validate
-    code_validations
+    validate_json
   end
 
   def execute
@@ -15,8 +15,17 @@ class Weather::ElTiempo::ApiCallback < Mutations::Command
 
   private
 
-  def parsed_body
-    JSON.parse(body, {:symbolize_names => true})
+  def validate_json
+    unless parsed_body
+      add_error(:body, :invalid, "Must be a valid JSON.")
+    end
   end
 
+  def parsed_body
+    begin
+      JSON.parse(body, {:symbolize_names => true})
+    rescue => e
+      false
+    end
+  end
 end
