@@ -6,13 +6,7 @@ RSpec.describe Weather::ElTiempo::PrepareData do
   let(:params) { create(:body) }
 
   context 'success' do
-    let(:expected_data) do
-      {
-          :tempmins=>[9, 11, 11, 8, 7],
-          :tempmaxs=>[20, 14, 23, 10, 9],
-          :today=>{:tempmins=>[9], :tempmaxs=>[20]}
-      }
-    end
+    let(:expected_data) { create(:data) }
 
     it 'expected result' do
       expect(subject).to be_truthy

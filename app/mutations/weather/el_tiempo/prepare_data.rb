@@ -32,8 +32,8 @@ class Weather::ElTiempo::PrepareData < Mutations::Command
 
   def execute
     DAYS.each_with_object(result_hash) do |str, hash|
-      hash[:tempmins] << day[:"#{str}"][:tempmin].to_i
-      hash[:tempmaxs] << day[:"#{str}"][:tempmax].to_i
+      hash[:week][:tempmins] << day[:"#{str}"][:tempmin].to_i
+      hash[:week][:tempmaxs] << day[:"#{str}"][:tempmax].to_i
 
       if str == '1'
         hash[:today][:tempmins] << day[:"#{str}"][:tempmin].to_i
@@ -64,8 +64,10 @@ class Weather::ElTiempo::PrepareData < Mutations::Command
 
   def result_hash
     {
-        tempmins: [],
-        tempmaxs: [],
+        week: {
+            tempmins: [],
+            tempmaxs: []
+        },
         today: {
             tempmins: [],
             tempmaxs: []
