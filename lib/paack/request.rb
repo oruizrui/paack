@@ -14,10 +14,10 @@ module Paack
       request = Net::HTTP::Post.new(uri.request_uri)
       response = http.request(request)
 
-      #{
-      #    code: response.code,
-      #    body: response.body
-      #}
+      {
+          code: response.code,
+          body: response.body
+      }
     end
   end
 end

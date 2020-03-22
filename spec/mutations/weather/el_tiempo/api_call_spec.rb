@@ -20,18 +20,22 @@ RSpec.describe Weather::ElTiempo::ApiCall do
   let(:localidad) { 1234 }
   let(:uri) { Weather::ElTiempo::ApiCall::BASE_URI }
   let(:affiliate_id) { Weather::ElTiempo::ApiCall::AFFILIATE_ID }
+  let(:api_response) { create(:api_response) }
 
   context 'success' do
-    it 'expected results' do
+    before do
       flexmock(Paack::Request).
           should_receive(:request).
           with(
               base_uri: uri,
               params: request_params
           ).
+          and_return(api_response).
           once
+    end
 
-      subject
+    it 'expected results' do
+      expect(subject).to be_truthy
     end
   end
 end
