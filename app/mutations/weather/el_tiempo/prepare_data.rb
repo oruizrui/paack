@@ -1,59 +1,75 @@
 class Weather::ElTiempo::PrepareData < Mutations::Command
 
+  DAYS = %w[1 2 3 4 5]
+
   required do
     integer :status, in: [0, 1]
   end
 
   optional do
-    string :location
-    string :url
-    hash :day do
+    string :location, discard_empty: true
+    string :url, discard_empty: true
+    hash :day, discard_empty: true do
       required do
-        hash :"1" do
-          required do
-            integer :tempmin
-            integer :tempmax
-          end
-        end
-        hash :"2" do
-          required do
-            integer :tempmin
-            integer :tempmax
-          end
-        end
-        hash :"3" do
-          required do
-            integer :tempmin
-            integer :tempmax
-          end
-        end
-        hash :"4" do
-          required do
-            integer :tempmin
-            integer :tempmax
-          end
-        end
-        hash :"5" do
-          required do
-            integer :tempmin
-            integer :tempmax
+        DAYS.each do |day|
+          hash :"#{day}" do
+            required do
+              integer :tempmin
+              integer :tempmax
+            end
           end
         end
       end
     end
 
-    string :error
+    string :error, discard_empty: true
   end
 
-  #def validate
-  #  check_status
-  #  check_error
-  #end
+  def validate
+    validate_consisntecy
+    validate_only_status_zero unless has_errors?
+  end
 
   def execute
-    #debugger
+    DAYS.each_with_object(result_hash) do |str, hash|
+      hash[:tempmins] << day[:"#{str}"][:tempmin].to_i
+      hash[:tempmaxs] << day[:"#{str}"][:tempmax].to_i
+
+      if str == '1'
+        hash[:today][:tempmins] << day[:"#{str}"][:tempmin].to_i
+        hash[:today][:tempmaxs] << day[:"#{str}"][:tempmax].to_i
+      end
+    end
   end
 
+  private
 
+  def validate_consisntecy
+    if status === 0
+      unless location.present? && url.present? && day.present?
+        add_error(:data, :missing, 'Wrong data consisntecy. Data is invalid.')
+      end
+    elsif status === 1
+      unless error.present?
+        add_error(:data, :missing, 'Wrong data consisntecy. Data is invalid.')
+      end
+    end
+  end
 
+  def validate_only_status_zero
+    if status != 0
+      add_error(:data, :invalid, error)
+    end
+  end
+
+  def result_hash
+    {
+        tempmins: [],
+        tempmaxs: [],
+        today: {
+            tempmins: [],
+            tempmaxs: []
+        }
+    }
+  end
 end
