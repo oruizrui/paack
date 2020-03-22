@@ -3,7 +3,7 @@ FactoryBot.define do
   factory :api_response, class: Hash do
     skip_create
     code { 200 }
-    body { create(:body_json).to_json }
+    body { create(:body).to_json }
     initialize_with do
       attributes.
           stringify_keys.
@@ -11,7 +11,7 @@ FactoryBot.define do
     end
   end
 
-  factory :body_json, class: Hash do
+  factory :body, class: Hash do
     skip_create
 
     status { 0 }
