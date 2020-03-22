@@ -1,4 +1,4 @@
-class GetWeatherSummary < Mutations::Command
+class Weather::GetWeatherSummary < Mutations::Command
 
   required do
     integer :city_id
@@ -7,7 +7,7 @@ class GetWeatherSummary < Mutations::Command
 
   def execute
     case provider
-    when 'el-tiempo' then GetSummary.run!(localidad: city_id)
+    when 'el-tiempo' then Weather::ElTiempo::GetSummary.run!(localidad: city_id)
     end
   end
 end
