@@ -1,0 +1,22 @@
+
+<h1> Could you chose a City, please? </h1>
+
+<%= form_with(url: weather_index_path, method: "get") do %>
+  <%= hidden_field_tag(:provider, 'el-tiempo') %>
+  <% options = [['Select', ''], ['Gava', 1381]] %>
+  <% selected = params.has_key?(:city_id) && params[:city_id] != '' ? options[1] : options[0] %>
+  <%= select_tag :city_id, options_for_select(options, selected) %>
+  <%= submit_tag("Search") %>
+<% end %>
+
+<% if @data %>
+  <h2> Week Info </h2>
+  <p> Max Tem Av --> <%= @data[:week][:temp][:av_max] %> </p>
+  <p> Min Tem Av --> <%= @data[:week][:temp][:av_min] %> </p>
+  <br>
+  <h2> Day Info </h2>
+  <p> Max Tem Av --> <%= @data[:today][:max] %> </p>
+  <p> Min Tem Av --> <%= @data[:today][:min] %> </p>
+  <p> Min Tem Av --> <%= @data[:today][:av] %> </p>
+<% end %>
+
