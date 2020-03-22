@@ -20,6 +20,18 @@ class Weather::ElTiempo::ApiCall < Mutations::Command
         )
   end
 
+  arr = %w[1 2 3 4 5]
+  JSON.parse(json.body, {:symbolize_names => true})[:day]; nil
+  obj = {
+      min: [],
+      max: [],
+      today: ''
+  }
+  arr.each_with_object(obj) do |str, hash|
+    hash[:min] << JSON.parse(json.body, {:symbolize_names => true})[:day][:"#{str}"][:tempmin].to_i
+    hash[:max] << JSON.parse(json.body, {:symbolize_names => true})[:day][:"#{str}"][:tempmax].to_i
+  end
+
   private
 
   def base_uri

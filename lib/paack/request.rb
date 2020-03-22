@@ -13,7 +13,12 @@ module Paack
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.request_uri)
 
-      http.request(request)
+      success = http.request(request)
+
+      {
+          code: success.code,
+          boby: success.body
+      }
     end
   end
 end
