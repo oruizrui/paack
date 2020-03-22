@@ -9,5 +9,4 @@ RSpec.describe Weather::ElTiempo::PrepareData do
     subject
   end
 
-
 end
