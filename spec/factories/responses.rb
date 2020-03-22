@@ -6,8 +6,8 @@ FactoryBot.define do
     body { create(:body).to_json }
     initialize_with do
       attributes.
-          stringify_keys.
-          with_indifferent_access
+          with_indifferent_access.
+          stringify_keys
     end
   end
 
@@ -29,8 +29,8 @@ FactoryBot.define do
 
     initialize_with do
       attributes.
-          stringify_keys.
-          with_indifferent_access
+          with_indifferent_access.
+          stringify_keys
     end
   end
 
@@ -38,8 +38,8 @@ FactoryBot.define do
     skip_create
     initialize_with do
       attributes.
-          stringify_keys.
-          with_indifferent_access
+          with_indifferent_access.
+          stringify_keys
     end
 
     trait :localidad do
