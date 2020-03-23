@@ -1,5 +1,10 @@
 # README
-
+## run docker
+```docker-compose build```
+```docker-compose up -d```
+```docker-compose exec web bash```
+```docker-compose exec web bundle exec rspec```
+## run locally
 1. Install dependencies
 
 ```bundle install```
